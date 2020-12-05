@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 3.13)
+
+project(latino-WebSocket)
+
+if (WIN32)
+  set (LATINO_PATH "C:/src/latino" CACHE FILEPATH "Ruta de instalacion de latino")
+  include_directories(${LATINO_PATH}/include)
+  link_directories(${LATINO_PATH}/msvc/x64/Debug)
+else()
+  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_GNU_SOURCE -Wall -std=c11 -rdynamic -ldl -fPIC")
+  SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -D_GNU_SOURCE -g -O0 -Wall -std=c11 -rdynamic -ldl -fPIC")
+endif()
+
+if(APPLE)
+  LINK_DIRECTORIES(/usr/local/lib)
+  include_directories("/usr/local/include")
+#   add_library(latino-mysql SHARED src/latino-mysql.c)
+#   target_link_libraries(latino-mysql liblatino_static mysqlclient readline)
+#   INSTALL(TARGETS latino-mysql DESTINATION /usr/local/lib)
+endif()
+
+if(UNIX)
+  include_directories(include)
+#   add_library(latino-mysql SHARED src/latino-mysql.c)
+#   target_link_libraries(latino-mysql mysqlclient latino)
+#   INSTALL(TARGETS latino-mysql DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+endif()
