@@ -16,7 +16,7 @@
 #endif
 // Fin MS-Windows
 
-#include <latino.h>
+#include "latino.h"
 
 
 #define LIB_WEBSOCKET_NAME "websocket"
@@ -26,6 +26,7 @@ static void lat_conectar(lat_mv *mv) {
 };
 
 static void lat_iniciar_server(lat_mv *mv) {
+    lat_objeto *puerto = latC_desapilar(mv);
 
     #pragma comment(lib,"Ws2_32.lib")
 
@@ -281,7 +282,7 @@ static void lat_iniciar_cliente(lat_mv *mv) {
 
 static const lat_CReg libwebsocket[] = {
     {"conectar", lat_conectar, 0},
-    {"iniciar_server", lat_iniciar_server, 0},
+    {"iniciar_server", lat_iniciar_server, 1},
     {"iniciar_cliente", lat_iniciar_cliente, 0},
     {NULL, NULL, 0}
 };
@@ -300,6 +301,6 @@ LATINO_API void latC_abrir_liblatino_websocket(lat_mv *mv) {
 // cliente.enviar_mensaje("hola mundo!")
 // cliente.cerrar_conexion()
 
-funcion cliente.cerrar_conexion()
+// funcion cliente.cerrar_conexion()
 // código de Latino
-fin
+// fin
