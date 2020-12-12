@@ -299,3 +299,7 @@ LATINO_API void latC_abrir_liblatino_websocket(lat_mv *mv) {
 // cliente = socket.inciar_cliente(3000)
 // cliente.enviar_mensaje("hola mundo!")
 // cliente.cerrar_conexion()
+
+funcion cliente.cerrar_conexion()
+// código de Latino
+fin
