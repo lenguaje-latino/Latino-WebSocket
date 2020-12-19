@@ -1,0 +1,23 @@
+
+incluir("websocket")
+
+cliente = socket.iniciar_cliente(3000)
+
+lista_socket = ["localhost", 3000]
+// lista.agregar(lista_socket, 3000)
+
+respuesta = cliente.recv(1024)
+
+imprimir(respuesta)
+mensaje = cliente.enviar_mensaje("Hola mundo")
+imprimir(mensaje)
+
+cliente.cerrar_conexion()
+
+// cliente = socket.inciar_cliente(3000)
+// cliente.enviar_mensaje("hola mundo!")
+// cliente.cerrar_conexion()
+
+// funcion cliente.cerrar_conexion()
+// código de Latino
+// fin
