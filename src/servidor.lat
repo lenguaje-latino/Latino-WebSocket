@@ -1,0 +1,21 @@
+// codigo latino
+incluir("websocket")
+
+servidor = socket.iniciar_server(3000)
+lista_socket = ["localhost", 3000]
+// lista.agregar(lista_socket, 3000)
+
+// server.escuchar()
+
+i = 0
+
+mientras i < 1
+    misocket = [conectar, addrinfo]
+    imprimir (addrinfo)
+    peticion = conectar.recv(1024)
+    imprimir(peticion)
+    servidor.cerrar_conexion()
+fin
+
+// server.cerrar_conexion()
+
