@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(latino-websocket)
+project(latino-socketc)
 
 if (WIN32)
   #
@@ -17,14 +17,14 @@ if (WIN32)
 # cmake_INSTALL_PREFIX
   # set (MySQL_PATH "C:/Program Files/MySQL/MySQL Server 8.0" CACHE FILEPATH "Ruta de instalacion de MySQL")
   message(STATUS "ARQUITECTURA .................. ${TARGET_ARCH}")
-  
+
   set(CMAKE_INSTALL_PREFIX "C:/Program Files")
   message(STATUS "DIRECTORIO .................... ${CMAKE_INSTALL_PREFIX}")
   set (LATINO_PATH "${CMAKE_INSTALL_PREFIX}/Latino" CACHE FILEPATH "Ruta de instalacion de latino")
   include_directories(${LATINO_PATH}/include)
   link_directories(${LATINO_PATH}/lib)
-  add_library(latino-websocket SHARED src/latino-websocket.c)
-  target_link_libraries(latino-websocket latino)
+  add_library(latino-socketc SHARED src/latino-socketc.c)
+  target_link_libraries(latino-socketc latino)
 else()
   SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_GNU_SOURCE -Wall -std=c11 -rdynamic -ldl -fPIC")
   SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -D_GNU_SOURCE -g -O0 -Wall -std=c11 -rdynamic -ldl -fPIC")

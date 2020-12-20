@@ -1,0 +1,3 @@
+D:/work/latino/Latino-WebSocket/build/CMakeFiles/latino-socketc.dir
+D:/work/latino/Latino-WebSocket/build/CMakeFiles/ALL_BUILD.dir
+D:/work/latino/Latino-WebSocket/build/CMakeFiles/ZERO_CHECK.dir

@@ -1,21 +1,25 @@
-// codigo latino
-incluir("websocket")
+// socket = incluir("socket")
 
-servidor = socket.iniciar_server(3000)
-lista_socket = ["localhost", 3000]
-// lista.agregar(lista_socket, 3000)
+// mi_socket = socket.socket('localhost', 3000)
+// mi_socket.enlazar()
+// mi_socket.escuchar(5)
 
-// server.escuchar()
+// mientras (verdadero)
+//     conexion = mi_socket.aceptar()
+//     imprimir("Nueva conexión establecida")
+//     imprimir(addr)
+//     peticion = conexion.recv(1024)
+//     imprimir(peticion)
+//     conexion.enviar('Desde el servidor')
+// fin
 
-i = 0
-
-mientras i < 1
-    misocket = [conectar, addrinfo]
-    imprimir (addrinfo)
-    peticion = conectar.recv(1024)
+incluir("socketc")
+mi_socket = socketc.socket('localhost', 3000)
+socketc.enlazar(mi_socket)
+socketc.escuchar(mi_socket, 5)
+mientras (verdadero)
+    conexion = socketc.aceptar(mi_socket)
+    peticion = socketc.recv(conexion, 1024)
     imprimir(peticion)
-    servidor.cerrar_conexion()
+    socketc.enviar(mi_socket, 'Desde el servidor')
 fin
-
-// server.cerrar_conexion()
-
