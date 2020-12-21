@@ -1,25 +1,11 @@
-// socket = incluir("socket")
-
-// mi_socket = socket.socket('localhost', 3000)
-// mi_socket.enlazar()
-// mi_socket.escuchar(5)
-
-// mientras (verdadero)
-//     conexion = mi_socket.aceptar()
-//     imprimir("Nueva conexión establecida")
-//     imprimir(addr)
-//     peticion = conexion.recv(1024)
-//     imprimir(peticion)
-//     conexion.enviar('Desde el servidor')
-// fin
-
 incluir("socketc")
-mi_socket = socketc.socket('localhost', 3000)
+
+mi_socket = socketc.socket("localhost", 3000)
 socketc.enlazar(mi_socket)
 socketc.escuchar(mi_socket, 5)
 mientras (verdadero)
     conexion = socketc.aceptar(mi_socket)
     peticion = socketc.recv(conexion, 1024)
     imprimir(peticion)
-    socketc.enviar(mi_socket, 'Desde el servidor')
+    socketc.enviar(conexion, 'Hola desde el servidor')
 fin

@@ -1,13 +1,8 @@
-// socket = incluir("socket")
-// mi_socket = socket.socket('localhost', 3000)
-// mi_socket.conectar()
-
-// mi_socket.enviar('Hola desde el cliente')
-// respuesta = mi_socket.recv(1024)
-
-// imprimir (respuesta)
-// mi_socket.cerrar()
-
 incluir("socketc")
-mi_socket = socketc.socket('localhost', 3000)
-socketc.conectar(mi_socket)
+
+mi_socket = socketc.socket("localhost", 3000)
+conexion = socketc.conectar(mi_socket)
+socketc.enviar(conexion, "Hola desde el cliente")
+respuesta = socketc.recv(conexion, 1024)
+imprimir(respuesta)
+socketc.cerrar(conexion)
