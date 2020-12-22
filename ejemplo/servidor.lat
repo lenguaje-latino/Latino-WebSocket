@@ -3,9 +3,12 @@ incluir("socketc")
 mi_socket = socketc.socket("localhost", 3000)
 socketc.enlazar(mi_socket)
 socketc.escuchar(mi_socket, 5)
+
 mientras (verdadero)
     conexion = socketc.aceptar(mi_socket)
+
     peticion = socketc.recv(conexion, 1024)
     imprimir(peticion)
+
     socketc.enviar(conexion, 'Hola desde el servidor')
 fin

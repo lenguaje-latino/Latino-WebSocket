@@ -20,6 +20,8 @@
 #endif
 // Fin MS-Windows
 
+#define LATINO_LIB
+
 #include "latino.h"
 
 #define LIB_WEBSOCKET_NAME "socketc"

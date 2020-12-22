@@ -2,7 +2,9 @@ incluir("socketc")
 
 mi_socket = socketc.socket("localhost", 3000)
 conexion = socketc.conectar(mi_socket)
+
 socketc.enviar(conexion, "Hola desde el cliente")
 respuesta = socketc.recv(conexion, 1024)
+
 imprimir(respuesta)
 socketc.cerrar(conexion)
