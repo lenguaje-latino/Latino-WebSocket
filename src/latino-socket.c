@@ -7,7 +7,6 @@
 
 #if (defined __WIN32__) || (defined _WIN32)
 #define LATINO_BUILD_AS_DLL
-#define LATINO_LIB
 
 #include <windows.h>
 #include <winsock2.h>
@@ -24,7 +23,7 @@
 
 #include "latino.h"
 
-#define LIB_WEBSOCKET_NAME "socketc"
+#define LIB_WEBSOCKET_NAME "socket"
 
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "Mswsock.lib")
@@ -235,7 +234,7 @@ static void lat_cerrar(lat_mv *mv)
     WSACleanup();
 }
 
-static const lat_CReg libsocketc[] = {
+static const lat_CReg libsocket[] = {
     {"socket", lat_socket, 2},
     {"enlazar", lat_enlazar, 1},
     {"escuchar", lat_escuchar, 2},
@@ -246,7 +245,7 @@ static const lat_CReg libsocketc[] = {
     {"cerrar", lat_cerrar, 1},
     {NULL, NULL, 0}};
 
-LATINO_API void latC_abrir_liblatino_socketc(lat_mv *mv)
+LATINO_API void latC_abrir_liblatino_socket(lat_mv *mv)
 {
-    latC_abrir_liblatino(mv, LIB_WEBSOCKET_NAME, libsocketc);
+    latC_abrir_liblatino(mv, LIB_WEBSOCKET_NAME, libsocket);
 }

@@ -1,14 +1,14 @@
-incluir("socketc")
+incluir("socket")
 
-mi_socket = socketc.socket("localhost", 3000)
-socketc.enlazar(mi_socket)
-socketc.escuchar(mi_socket, 5)
+mi_socket = socket.socket("localhost", 3000)
+socket.enlazar(mi_socket)
+socket.escuchar(mi_socket, 5)
 
 mientras (verdadero)
-    conexion = socketc.aceptar(mi_socket)
+    conexion = socket.aceptar(mi_socket)
 
-    peticion = socketc.recv(conexion, 1024)
+    peticion = socket.recv(conexion, 1024)
     imprimir(peticion)
 
-    socketc.enviar(conexion, 'Hola desde el servidor')
+    socket.enviar(conexion, 'Hola desde el servidor')
 fin

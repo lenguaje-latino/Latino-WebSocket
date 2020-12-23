@@ -11,7 +11,7 @@
 # >>> CMAKE configuraciones
 cmake_minimum_required(VERSION 3.13)
 
-project(latino-socketc)
+project(latino-socket)
 
 #
 # >>> MS_WINDOWS
@@ -36,8 +36,8 @@ if (WIN32)
   include_directories(${LATINO_PATH}/include)
   link_directories(${LATINO_PATH}/lib)
   
-  add_library(latino-socketc SHARED src/latino-socketc.c)
-  target_link_libraries(latino-socketc latino)
+  add_library(latino-socket SHARED src/latino-socket.c)
+  target_link_libraries(latino-socket latino)
 
   #
   # Mensajes

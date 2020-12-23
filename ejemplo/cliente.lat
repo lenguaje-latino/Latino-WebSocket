@@ -1,10 +1,10 @@
-incluir("socketc")
+incluir("socket")
 
-mi_socket = socketc.socket("localhost", 3000)
-conexion = socketc.conectar(mi_socket)
+mi_socket = socket.socket("localhost", 3000)
+conexion = socket.conectar(mi_socket)
 
-socketc.enviar(conexion, "Hola desde el cliente")
-respuesta = socketc.recv(conexion, 1024)
+socket.enviar(conexion, "Hola desde el cliente")
+respuesta = socket.recv(conexion, 1024)
 
 imprimir(respuesta)
-socketc.cerrar(conexion)
+socket.cerrar(conexion)
