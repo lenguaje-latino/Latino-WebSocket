@@ -165,7 +165,7 @@ LATINO_API lat_objeto *lat_sock_conectar(lat_mv *mv, LatSocket *latSocket) {
 
 LATINO_API void lat_sock_cerrar(lat_mv *mv, LatSocket *lat_sock) {
     int iResult = shutdown(lat_sock->socket, SD_SEND);
-#if __WIN32
+#if _WIN32
     if (iResult == SOCKET_ERROR)
     {
         closesocket(lat_sock->socket);

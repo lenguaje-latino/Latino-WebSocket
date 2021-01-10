@@ -33,6 +33,8 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 
+#define LATINO_LIB
+
 #if (defined __WIN32__) || (defined _WIN32)
 // INICIO _WIN32
 #include <WinSock2.h>

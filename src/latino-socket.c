@@ -34,8 +34,6 @@
 
 #include "lat_socket_compat.h"
 
-#define LATINO_LIB
-
 #define LIB_WEBSOCKET_NAME "socket"
 
 static void lat_socket(lat_mv *mv)
