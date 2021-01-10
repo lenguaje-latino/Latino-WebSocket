@@ -36,147 +36,127 @@
 
 #define LIB_WEBSOCKET_NAME "socket"
 
-static void lat_socket(lat_mv *mv)
-{
-    // Resolve the server address and port
-    lat_objeto *puerto = latC_desapilar(mv);
-    lat_objeto *host = latC_desapilar(mv);
-    char *str_host = latC_checar_cadena(mv, host);
-    char *c_puerto = latC_astring(mv, puerto);
-    
-    printf("Empezamos lat_socket");
-    LatSocket *lat_sock_result = lat_sock_crear(mv, str_host, c_puerto);
+static void lat_socket(lat_mv *mv) {
+    lat_objeto *puerto              =   latC_desapilar(mv);
+    lat_objeto *host                =   latC_desapilar(mv);
+    char *str_host                  =   latC_checar_cadena(mv, host);
+    char *c_puerto                  =   latC_astring(mv, puerto);
+    LatSocket *lat_sock_result      =   lat_sock_crear(mv, str_host, c_puerto);
     latC_apilar(mv, lat_sock_result);
 }
 
-static void lat_enlazar(lat_mv *mv)
-{
-    lat_objeto *socketc = latC_desapilar(mv);
-    LatSocket *latSocket = (LatSocket *)latC_checar_cptr(mv, socketc);
+static void lat_enlazar(lat_mv *mv) {
+    lat_objeto *socketc             =   latC_desapilar(mv);
+    LatSocket *latSocket            =   (LatSocket *)latC_checar_cptr(mv, socketc);
     lat_sock_bind(mv, latSocket);
 }
 
-static void lat_escuchar(lat_mv *mv)
-{
-    lat_objeto *max_conex = latC_desapilar(mv);
-    lat_objeto *socketc = latC_desapilar(mv);
-    LatSocket *latSocket = (LatSocket *)latC_checar_cptr(mv, socketc);
-    int int_max_conex = (int)latC_checar_numerico(mv, max_conex);
-    int iResult = listen(latSocket->socket, int_max_conex);
-    if (iResult == SOCKET_ERROR)
-    {
+static void lat_escuchar(lat_mv *mv) {
+    lat_objeto *max_conex           =   latC_desapilar(mv);
+    lat_objeto *socketc             =   latC_desapilar(mv);
+    LatSocket *latSocket            =   (LatSocket *)latC_checar_cptr(mv, socketc);
+    int int_max_conex               =   (int)latC_checar_numerico(mv, max_conex);
+    int iResult                     =   listen(latSocket->socket, int_max_conex);
+    if (iResult == SOCKET_ERROR) {
         lat_sock_cerrar(mv, latSocket->socket);
 #ifdef _WIN32
         WSACleanup();
         latC_error(mv, "Listen failed with error: %ld\n", WSAGetLastError());
 #else
-        latC_error(mv, "Listen failed with error");
+        latC_error(mv, "Listen failed with error\n");
 #endif
     }
 }
 
-static void lat_aceptar(lat_mv *mv)
-{
-    lat_objeto *socketc = latC_desapilar(mv);
-    LatSocket *latSocket = (LatSocket *)latC_checar_cptr(mv, socketc);
-    SOCKET ClientSocket = INVALID_SOCKET;
+static void lat_aceptar(lat_mv *mv) {
+    lat_objeto *socketc             =   latC_desapilar(mv);
+    LatSocket *latSocket            =   (LatSocket *)latC_checar_cptr(mv, socketc);
+    SOCKET ClientSocket             =   INVALID_SOCKET;
     // Accept a client socket
-    ClientSocket = accept(latSocket->socket, NULL, NULL);
-    if (ClientSocket == INVALID_SOCKET)
-    {
+    ClientSocket                    =   accept(latSocket->socket, NULL, NULL);
+    if (ClientSocket == INVALID_SOCKET) {
         lat_sock_cerrar(mv, latSocket->socket);
 #ifdef _WIN32
         WSACleanup();
         latC_error(mv, "Error al aceptar el socket: %d\n", WSAGetLastError());
 #else
-        latC_error(mv, "Error al aceptar el socket");
+        latC_error(mv, "Error al aceptar el socket\n");
 #endif
     }
-    LatSocket *latSocketClient = (LatSocket *)malloc(sizeof(LatSocket));
-    latSocketClient->socket = ClientSocket;
-    latSocketClient->result = latSocket->result;
-    lat_objeto *client_socket = latC_crear_cdato(mv, latSocketClient);
+    LatSocket *latSocketClient      =   (LatSocket *)malloc(sizeof(LatSocket));
+    latSocketClient->socket         =   ClientSocket;
+    latSocketClient->result         =   latSocket->result;
+    lat_objeto *client_socket       =   latC_crear_cdato(mv, latSocketClient);
     latC_apilar(mv, client_socket);
 }
 
-static void lat_recv(lat_mv *mv)
-{
-    lat_objeto *tam_buffer = latC_desapilar(mv);
-    lat_objeto *socketc = latC_desapilar(mv);
-    LatSocket *latSocket = (LatSocket *)latC_checar_cptr(mv, socketc);
-    int int_tam_buffer = (int)latC_checar_numerico(mv, tam_buffer);
+static void lat_recv(lat_mv *mv) {
+    lat_objeto *tam_buffer          =   latC_desapilar(mv);
+    lat_objeto *socketc             =   latC_desapilar(mv);
+    LatSocket *latSocket            =   (LatSocket *)latC_checar_cptr(mv, socketc);
+    // int recvbuflen                  =   (int)latC_checar_numerico(mv, tam_buffer);
     char recvbuf[DEFAULT_BUFLEN];
-    int recvbuflen = DEFAULT_BUFLEN;
-    int iSendResult = 0;
-    int iResult = recv(latSocket->socket, recvbuf, recvbuflen, 0);
-    if (iResult > 0)
-    {
+    int recvbuflen                  =   DEFAULT_BUFLEN;
+    // int iSendResult                 =   0;
+    int iResult                     =   recv(latSocket->socket, recvbuf, recvbuflen, 0);
+    if (iResult > 0) {
         latC_apilar_string(mv, recvbuf);
-    }
-    else if (iResult == 0)
-    {
+    } else if (iResult == 0) {
         printf("Cerrando conexion...\n");
-    }
-    else
-    {
+    } else {
         lat_sock_cerrar(mv, latSocket->socket);
 #ifdef _WIN32
         WSACleanup();
         latC_error(mv, "Fallo al recibir mensaje: %d\n", WSAGetLastError());
 #else
-        latC_error(mv, "Fallo al recibir mensaje");
+        latC_error(mv, "Fallo al recibir mensaje\n");
 #endif
     }
 }
 
-static void lat_enviar(lat_mv *mv)
-{
-    lat_objeto *objStr = latC_desapilar(mv);
-    lat_objeto *socketc = latC_desapilar(mv);
-    LatSocket *latSocket = (LatSocket *)latC_checar_cptr(mv, socketc);
-    char *mensaje = latC_checar_cadena(mv, objStr);
-    int iResult = 1000;
-    int iSendResult = send(latSocket->socket, mensaje, iResult, 0);
-    if (iSendResult == SOCKET_ERROR)
-    {
+static void lat_enviar(lat_mv *mv) {
+    lat_objeto *objStr              =   latC_desapilar(mv);
+    lat_objeto *socketc             =   latC_desapilar(mv);
+    LatSocket *latSocket            =   (LatSocket *)latC_checar_cptr(mv, socketc);
+    char *mensaje                   =   latC_checar_cadena(mv, objStr);
+    int iResult                     =   1000;
+    int iSendResult                 =   send(latSocket->socket, mensaje, iResult, 0);
+    if (iSendResult == SOCKET_ERROR) {
         lat_sock_cerrar(mv, latSocket->socket);
 #ifdef _WIN32
         WSACleanup();
         latC_error(mv, "Error al enviar mensaje: %d\n", WSAGetLastError());
 #else
-        latC_error(mv, "Error al enviar mensaje");
+        latC_error(mv, "Error al enviar mensaje\n");
 #endif
     }
 }
 
-static void lat_conectar(lat_mv *mv)
-{
-    lat_objeto *socketc = latC_desapilar(mv);
-    LatSocket *latSocket = (LatSocket *)latC_checar_cptr(mv, socketc);
-    lat_objeto *client_socket = lat_sock_conectar(mv, latSocket);
+static void lat_conectar(lat_mv *mv) {
+    lat_objeto *socketc             =   latC_desapilar(mv);
+    LatSocket *latSocket            =   (LatSocket *)latC_checar_cptr(mv, socketc);
+    lat_objeto *client_socket       =   lat_sock_conectar(mv, latSocket);
     latC_apilar(mv, client_socket);
 }
 
-static void lat_cerrar(lat_mv *mv)
-{
-    lat_objeto *socketc = latC_desapilar(mv);
-    LatSocket *latSocket = (LatSocket *)latC_checar_cptr(mv, socketc);
+static void lat_cerrar(lat_mv *mv) {
+    lat_objeto *socketc             =   latC_desapilar(mv);
+    LatSocket *latSocket            =   (LatSocket *)latC_checar_cptr(mv, socketc);
     lat_sock_cerrar(mv, latSocket);
 }
 
 static const lat_CReg libsocket[] = {
-    {"socket", lat_socket, 2},
-    {"enlazar", lat_enlazar, 1},
-    {"escuchar", lat_escuchar, 2},
-    {"aceptar", lat_aceptar, 1},
-    {"recibir", lat_recv, 2},
-    {"recv", lat_recv, 2},
-    {"enviar", lat_enviar, 2},
-    {"conectar", lat_conectar, 1},
-    {"cerrar", lat_cerrar, 1},
+    {"socket",      lat_socket,     2},
+    {"enlazar",     lat_enlazar,    1},
+    {"escuchar",    lat_escuchar,   2},
+    {"aceptar",     lat_aceptar,    1},
+    {"recibir",     lat_recv,       2},
+    {"recv",        lat_recv,       2},
+    {"enviar",      lat_enviar,     2},
+    {"conectar",    lat_conectar,   1},
+    {"cerrar",      lat_cerrar,     1},
     {NULL, NULL, 0}};
 
-LATINO_API void latC_abrir_liblatino_socket(lat_mv *mv)
-{
+LATINO_API void latC_abrir_liblatino_socket(lat_mv *mv) {
     latC_abrir_liblatino(mv, LIB_WEBSOCKET_NAME, libsocket);
 }

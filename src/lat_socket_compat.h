@@ -53,35 +53,31 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <netdb.h>
 
-#define SOCKET                  int
-#define INVALID_SOCKET  (SOCKET)(~0)
-#define SOCKET_ERROR            (-1)
-#define SD_SEND                 SHUT_WR
-
+#define SOCKET                          int
+#define INVALID_SOCKET          (SOCKET)(~0)
+#define SOCKET_ERROR                    (-1)
+#define SD_SEND                         SHUT_RDWR
+#define ZeroMemory(Destination,Length)  memset((Destination),0,(Length))
 #endif  // FIN _UNIX-BASE_OS
-
-#endif //_LATINO_SOCKET_H_
 
 #include "latino.h"
 
 //** Definiciones*/
-#define DEFAULT_PORT "3000"
-#define DEFAULT_BUFLEN 512
+#define DEFAULT_PORT                    "3000"
+#define DEFAULT_BUFLEN                  512
 
 /** Structura*/
-typedef struct LatSocket
-{
+typedef struct LatSocket {
     SOCKET              socket;
-    #ifdef _WIN32
     struct addrinfo     *result;
-    #else
-    struct sockaddr_in  result;
-    #endif
 } LatSocket;
 
 /** Funciones*/
-LATINO_API lat_objeto *lat_sock_crear(lat_mv *mv, char *str_host, char *c_puerto);
-LATINO_API void lat_sock_bind(lat_mv *mv, LatSocket *latSocket);
-LATINO_API lat_objeto *lat_sock_conectar(lat_mv *mv, LatSocket *latSocket);
-LATINO_API void lat_sock_cerrar(lat_mv *mv, LatSocket *lat_sock);
+LATINO_API  lat_objeto   *lat_sock_crear(lat_mv *mv, char *str_host, char *c_puerto);
+LATINO_API  void         lat_sock_bind(lat_mv *mv, LatSocket *latSocket);
+LATINO_API  lat_objeto   *lat_sock_conectar(lat_mv *mv, LatSocket *latSocket);
+LATINO_API  void         lat_sock_cerrar(lat_mv *mv, LatSocket *lat_sock);
+
+#endif //_LATINO_SOCKET_H_
