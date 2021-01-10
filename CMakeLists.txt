@@ -11,7 +11,8 @@
 # >>> CMAKE configuraciones
 cmake_minimum_required(VERSION 3.13)
 
-set(INSTALL_LIB                             ${CMAKE_INSTALL_PREFIX}/lib)
+set(INSTALL_LIB_UNIX                             ${CMAKE_INSTALL_PREFIX}/lib)
+set(INSTALL_LIB_APPL                             ${CMAKE_INSTALL_PREFIX}/usr/local/lib)
 
 project(latino-socket)
 
@@ -65,5 +66,7 @@ add_library(latino-socket SHARED src/latino-socket.c src/lat_socket_compat.c)
 target_link_libraries(latino-socket latino)
 
 if(UNIX)
-install(TARGETS     latino-socket                          DESTINATION     ${INSTALL_LIB})
+install(TARGETS     latino-socket                          DESTINATION      ${INSTALL_LIB_UNIX})
+elseif(APPLE)
+install(TARGETS     latino-socket                          DESTINATION      ${INSTALL_LIB_APPL})
 endif()
