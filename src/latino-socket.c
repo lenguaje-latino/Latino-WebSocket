@@ -94,10 +94,8 @@ static void lat_recv(lat_mv *mv) {
     lat_objeto *tam_buffer          =   latC_desapilar(mv);
     lat_objeto *socketc             =   latC_desapilar(mv);
     LatSocket *latSocket            =   (LatSocket *)latC_checar_cptr(mv, socketc);
-    // int recvbuflen                  =   (int)latC_checar_numerico(mv, tam_buffer);
-    char recvbuf[DEFAULT_BUFLEN];
-    int recvbuflen                  =   DEFAULT_BUFLEN;
-    // int iSendResult                 =   0;
+    int recvbuflen                  =   (int)latC_checar_numerico(mv, tam_buffer);
+    char *recvbuf                   =   malloc(recvbuflen * sizeof(char));
     int iResult                     =   recv(latSocket->socket, recvbuf, recvbuflen, 0);
     if (iResult > 0) {
         latC_apilar_string(mv, recvbuf);
@@ -112,6 +110,7 @@ static void lat_recv(lat_mv *mv) {
         latC_error(mv, "Fallo al recibir mensaje\n");
 #endif
     }
+    free(recvbuf);
 }
 
 static void lat_enviar(lat_mv *mv) {
