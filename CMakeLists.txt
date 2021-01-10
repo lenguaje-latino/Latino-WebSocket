@@ -11,7 +11,12 @@
 # >>> CMAKE configuraciones
 cmake_minimum_required(VERSION 3.13)
 
+set(INSTALL_LIB                             ${CMAKE_INSTALL_PREFIX}/lib)
+
 project(latino-socket)
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_GNU_SOURCE -Wall -std=c11 -rdynamic -ldl -fPIC")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -D_GNU_SOURCE -g -O0 -Wall -std=c11 -rdynamic -ldl -fPIC")
 
 #
 # >>> MS_WINDOWS
@@ -35,9 +40,6 @@ if (WIN32)
   # Enlazar
   include_directories(${LATINO_PATH}/include)
   link_directories(${LATINO_PATH}/lib)
-  
-  add_library(latino-socket SHARED src/latino-socket.c)
-  target_link_libraries(latino-socket latino)
 
   #
   # Mensajes
@@ -45,26 +47,23 @@ if (WIN32)
   message(STATUS "DIRECTORIO .................... ${LATINO_PATH}")
   message(STATUS "INCLUDE ....................... ${LATINO_PATH}/include")
   message(STATUS "LIB ........................... ${LATINO_PATH}/lib")
-else()
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_GNU_SOURCE -Wall -std=c11 -rdynamic -ldl -fPIC")
-  set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -D_GNU_SOURCE -g -O0 -Wall -std=c11 -rdynamic -ldl -fPIC")
+
 endif()
 
-#
 # >>> macOS
 if(APPLE)
-  # link_directories(/usr/local/lib)
-  # include_directories("/usr/local/include")
-  # add_library(latino-mysql SHARED src/latino-mysql.c)
-  # target_link_libraries(latino-mysql liblatino_static mysqlclient readline)
-  # INSTALL(TARGETS latino-mysql DESTINATION /usr/local/lib)
+link_directories(/usr/local/lib)
+include_directories("/usr/local/include")
 endif()
 
-#
 # >>> LINUX
 if(UNIX)
-  # include_directories(include)
-  # add_library(latino-mysql SHARED src/latino-mysql.c)
-  # target_link_libraries(latino-mysql mysqlclient latino)
-  # INSTALL(TARGETS latino-mysql DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+include_directories(include)
+endif()
+
+add_library(latino-socket SHARED src/latino-socket.c src/lat_socket_compat.c)
+target_link_libraries(latino-socket latino)
+
+if(UNIX)
+install(TARGETS     latino-socket                          DESTINATION     ${INSTALL_LIB})
 endif()
