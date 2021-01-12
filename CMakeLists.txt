@@ -51,12 +51,14 @@ if (WIN32)
 
 endif()
 
+#
 # >>> macOS
 if(APPLE)
 link_directories(/usr/local/lib)
 include_directories("/usr/local/include")
 endif()
 
+#
 # >>> LINUX
 if(UNIX)
 include_directories(include)
@@ -65,6 +67,8 @@ endif()
 add_library(latino-socket SHARED src/latino-socket.c src/lat_socket_compat.c)
 target_link_libraries(latino-socket latino)
 
+#
+# >>> instalacion
 if(UNIX)
 install(TARGETS     latino-socket                          DESTINATION      ${INSTALL_LIB_UNIX})
 elseif(APPLE)
